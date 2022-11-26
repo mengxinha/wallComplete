@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表白墙</title>
+    <style>
+        .container{
+            width;400px;
+            margin:0 auto;
+        }
+        h1{
+            text-align: center;
+        }
+        p{
+            text-align: center;
+            color: #666;
+        }
+        .row{
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .row span{
+            width: 100px;
+        }
+        .row input{
+            width: 200px;
+            height: 30px;
+        }
+        .row button{
+            width: 306px;
+            height: 40px;
+            color: white;
+            background-color:orange;
+            border: none;
+        }
+        .row button:active{
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>表白墙</h1>
+        <p>输入后点击提交，就会把信息显示在表格中</p>
+        <div class="row">
+            <span>谁：</span><input type="text">
+        </div>
+        <div class="row">
+            <span>对谁:</span><input type="text">
+        </div>
+        <div class="row">
+            <span>说:</span><input type="text">
+        </div>
+        <div class="row">
+            <button>提交</button>
+        </div>
+    </div>
+
+
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+
+    <script>
+        let container = document.querySelector('.container');
+        let button = document.querySelector('button');
+        button.onclick = function(){
+            let inputs = document.querySelectorAll('input');
+            let from = inputs[0].value;
+            let to = inputs[1].value;
+            let message = inputs[2].value;
+
+            if(from=="" || to=="" ||message==""){
+                alert("当前输入框内容不合法!");
+                return;
+            }
+            console.log(from +","+to+","+message);
+
+            let rowDiv = document.createElement('div');
+            rowDiv.className = "row";
+            rowDiv.innerHTML = from + "对" + to +"说：" + message;
+            container.appendChild(rowDiv);
+
+            for(let i=0;i<inputs.length;i++){
+                inputs[i]= '';
+            }
+
+
+            let data={
+                "from" :from,
+                "to":to,
+                "message":message
+            }
+            $.ajax({
+                type:'post',
+                url:'message',
+                // 放body内容
+                data:JSON.stringify(data),
+                contentType:"application/json; charset=utf8",
+                success:function(body){
+                    console.log("提交数据成功");
+                }
+
+            })
+        }
+    </script>
+    
+</body>
+</html>

@@ -96,7 +96,8 @@
             };
             $.ajax({
                 type:'post',
-                url:'message',
+                url:'http://127.0.0.1:8080/messageWall/message',
+                //url:'message',
                 // 放body内容
                 data:JSON.stringify(data),
                 contentType:"application/json; charset=utf8",
@@ -112,12 +113,14 @@
                 type:'get',
                 url:'message',
                 success:function(body){
+                    let container = document.querySelector('.container');
                     for(let i=0;i<body.length;i++){
                         let message = body[i];
                         let row = document.createElement('div');
                         row.className = 'row';
                         row.innerHTML = message.from + "对" +message.to
                         +"说："+message.message;
+                        container.appendChile(row);
                     }
                 }
             })
